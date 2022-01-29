@@ -2,6 +2,7 @@ package com.moringaschool.memecreator;
 
 import static org.junit.Assert.*;
 
+import android.content.Intent;
 import android.widget.TextView;
 
 import junit.framework.TestCase;
@@ -11,6 +12,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.Shadows;
+import org.robolectric.shadows.ShadowActivity;
 
 
 @RunWith(RobolectricTestRunner.class)
@@ -30,6 +33,15 @@ public class MainActivityTest {
     public void textViewDisplaysCorrectValue() {
         TextView textView = activity.findViewById(R.id.welcomeText);
         assertEquals("MEME CREATOR!", textView.getText().toString());
+    }
+
+    @Test
+    public void secondActivityGetsStarted() {
+        activity.findViewById(R.id.button).performClick();
+        Intent intent = new Intent(activity, MemeCreatorActivity.class);
+        ShadowActivity shadowActivity = Shadows.shadowOf(activity);
+        Intent expectedIntent = shadowActivity.getNextStartedActivity();
+        assertTrue(intent.filterEquals(expectedIntent));
     }
 
 }
