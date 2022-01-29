@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,7 +45,8 @@ public class MemeCreatorActivity extends AppCompatActivity implements View.OnCli
         }
 
         if (view == mMemePhoto) {
-
+            Toast.makeText(MemeCreatorActivity.this, "Meme!", Toast.LENGTH_LONG).show();
         }
+
     }
 }
