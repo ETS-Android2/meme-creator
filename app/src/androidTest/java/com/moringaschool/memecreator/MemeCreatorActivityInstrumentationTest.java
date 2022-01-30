@@ -1,6 +1,8 @@
 package com.moringaschool.memecreator;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -25,5 +27,19 @@ public class MemeCreatorActivityInstrumentationTest {
     @Test
     public void validateTextInput() {
         onView(withId(R.id.memeContent)).perform(typeText("Funny!")).check(matches(withText("Funny!")));
+    }
+
+    @Test
+    public void memeGetsSentToMemeViewClass() {
+        String meme = "Funny!";
+        onView(withId(R.id.memeContent)).perform(typeText("Funny!")).perform(closeSoftKeyboard());
+        onView(withId(R.id.submittedBy)).perform(typeText("Timothy")).perform(closeSoftKeyboard());
+        try {
+            Thread.sleep(1000);
+        } catch(InterruptedException e) {
+            System.out.println(e);
+        }
+        onView(withId(R.id.button2)).perform(click());
+        onView(withId(R.id.viewMemeText)).check(matches(withText(meme)));
     }
 }
