@@ -4,12 +4,14 @@
 
 ## Technologies Used
 
-- Android & Java
+- Android & Java.
 
 
 ##### Setup Instructions and Installation
 
-- Firstly git clone the project into your local laptop
+- Firstly git clone the project into your local laptop using the `git clone: https://github.com/TimKirathe/meme-creator.git` command.
+- Open the project in Android Studio.
+- Navigate to the main app folder and run it on your specific Android Virtual Device.
 
 
 ## Development
@@ -36,7 +38,7 @@ If you'd like to request a new function, feel free to do so by opening an issue 
 ### License
 
 *MIT*
-Copyright (c) 2021 **Your name**
+Copyright (c) 2021 **Timothy Kirathe**
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
