@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,8 +13,9 @@ import butterknife.ButterKnife;
 
 public class MemeView extends AppCompatActivity {
     @BindView(R.id.viewMemeText)
-    EditText mViewMemeText;
-    @BindView(R.id.viewSubmittedByText) EditText mViewSubmittedByText;
+    TextView mViewMemeText;
+    @BindView(R.id.viewSubmittedByText)
+    TextView mViewSubmittedByText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
