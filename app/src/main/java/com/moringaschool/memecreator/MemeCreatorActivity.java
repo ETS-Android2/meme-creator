@@ -11,6 +11,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.moringaschool.memecreator.clients.ImgflipClient;
+import com.moringaschool.memecreator.interfaces.ImgflipAPI;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -23,6 +26,8 @@ public class MemeCreatorActivity extends AppCompatActivity implements View.OnCli
     @BindView(R.id.memePhoto)
     ImageView mMemePhoto;
 
+    ImgflipAPI imgflipAPI;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +36,8 @@ public class MemeCreatorActivity extends AppCompatActivity implements View.OnCli
         ButterKnife.bind(this);
 
         mButton.setOnClickListener(this);
+
+        imgflipAPI = ImgflipClient.getClient();
     }
 
     @Override
