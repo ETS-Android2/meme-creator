@@ -49,9 +49,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view ) {
         if (view == mButton) {
             myRequest();
-
-//            Intent intent = new Intent(MainActivity.this, MemeView.class);
-//            startActivity(intent);
         }
     }
 
@@ -71,6 +68,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 name = meme.getName();
                 imageUrl = meme.getUrl();
                 Log.e("MY MEME NAME", name);
+
+                Intent intent = new Intent(MainActivity.this, MemeView.class);
+                intent.putExtra("name", name);
+                intent.putExtra("imageUrl", imageUrl);
+                startActivity(intent);
             }
 
             @Override

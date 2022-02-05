@@ -44,10 +44,10 @@ public class MemeCreatorActivity extends AppCompatActivity implements View.OnCli
         if (view == mButton) {
             String meme = mMemeContent.getText().toString();
             String submittedBy = mSubmittedBy.getText().toString();
-            Intent intent = new Intent(MemeCreatorActivity.this, MemeView.class);
-            intent.putExtra("meme", meme);
-            intent.putExtra("submittedBy", submittedBy);
-            startActivity(intent);
+//            Intent intent = new Intent(MemeCreatorActivity.this, MemeView.class);
+//            intent.putExtra("meme", meme);
+//            intent.putExtra("submittedBy", submittedBy);
+//            startActivity(intent);
         }
 
         if (view == mMemePhoto) {
