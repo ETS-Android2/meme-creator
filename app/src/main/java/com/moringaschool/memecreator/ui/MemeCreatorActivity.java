@@ -1,4 +1,4 @@
-package com.moringaschool.memecreator;
+package com.moringaschool.memecreator.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,9 +8,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.moringaschool.memecreator.R;
 import com.moringaschool.memecreator.clients.ImgflipClient;
 import com.moringaschool.memecreator.interfaces.ImgflipAPI;
 
@@ -26,7 +26,7 @@ public class MemeCreatorActivity extends AppCompatActivity implements View.OnCli
     @BindView(R.id.memePhoto)
     ImageView mMemePhoto;
 
-    ImgflipAPI imgflipAPI;
+
 
 
     @Override
@@ -37,7 +37,6 @@ public class MemeCreatorActivity extends AppCompatActivity implements View.OnCli
 
         mButton.setOnClickListener(this);
 
-        imgflipAPI = ImgflipClient.getClient();
     }
 
     @Override

@@ -5,7 +5,8 @@ import static org.junit.Assert.*;
 import android.content.Intent;
 import android.widget.TextView;
 
-import junit.framework.TestCase;
+import com.moringaschool.memecreator.ui.MainActivity;
+import com.moringaschool.memecreator.ui.MemeCreatorActivity;
 
 import org.junit.Before;
 import org.junit.Test;
