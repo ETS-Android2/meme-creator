@@ -26,6 +26,11 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     @BindView(R.id.button) Button mButton;
+    private Data data;
+    private List<Meme> memes;
+    private Meme meme;
+    private String name;
+    private String imageUrl;
 
     ImgflipAPI imgflipAPI;
 
@@ -59,17 +64,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onResponse(Call<ImgflipMemeSearchResponse> call, Response<ImgflipMemeSearchResponse> response) {
                 Log.e("MY RESPONSE", response.raw().toString());
-                Data data = response.body().getData();
-                List<Meme> memes = data.getMemes();
+                data = response.body().getData();
+                memes = data.getMemes();
                 Random random = new Random();
-                Meme meme = memes.get(random.nextInt(memes.size()));
-                String name = meme.getName();
+                meme = memes.get(random.nextInt(memes.size()));
+                name = meme.getName();
+                imageUrl = meme.getUrl();
                 Log.e("MY MEME NAME", name);
-//                List<Meme> memes = response.body().getMemes();
-//                Random random = new Random();
-//                Meme meme = memes.get(random.nextInt(memes.size()));
-//                String name = meme.getName();
-//                Log.e("MY MEME NAME", name);
             }
 
             @Override
