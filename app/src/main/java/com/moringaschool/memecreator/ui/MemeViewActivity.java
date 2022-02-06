@@ -7,14 +7,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.moringaschool.memecreator.Constants;
 import com.moringaschool.memecreator.R;
+import com.moringaschool.memecreator.clients.ImgflipClient;
+import com.moringaschool.memecreator.interfaces.ImgflipAPI;
+import com.moringaschool.memecreator.models.ImgflipMemeSearchResponse;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MemeViewActivity extends AppCompatActivity implements View.OnClickListener {
     @BindView(R.id.memeName) TextView mTextView;
@@ -22,6 +30,10 @@ public class MemeViewActivity extends AppCompatActivity implements View.OnClickL
     ImageView mImageView;
     @BindView(R.id.postMemeButton)
     Button mButton;
+    @BindView(R.id.text0) EditText mEditText0;
+    @BindView(R.id.text1) EditText mEditText1;
+
+    ImgflipAPI imgflipAPI;
 
 
     @Override
@@ -29,6 +41,8 @@ public class MemeViewActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meme_view);
         ButterKnife.bind(this);
+
+        imgflipAPI = ImgflipClient.getClient();
 
         mButton.setOnClickListener(this);
 
@@ -46,5 +60,30 @@ public class MemeViewActivity extends AppCompatActivity implements View.OnClickL
         if (view == mButton) {
 
         }
+    }
+
+    private void myPostRequest() {
+
+        if(mEditText0.equals("") || mEditText1.equals("")) {
+            Toast.makeText(this, "Put some text first before you submit!", Toast.LENGTH_LONG).show();
+        }
+        else {
+            Call<ImgflipMemeSearchResponse> call = imgflipAPI
+                    .postMeme(getIntent().getStringExtra("imageId"), Constants.USERNAME, Constants.PASSWORD, mEditText0.getText().toString(), mEditText1.getText().toString());
+
+            call.enqueue(new Callback<ImgflipMemeSearchResponse>() {
+                @Override
+                public void onResponse(Call<ImgflipMemeSearchResponse> call, Response<ImgflipMemeSearchResponse> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<ImgflipMemeSearchResponse> call, Throwable t) {
+
+                }
+            });
+        }
+
+
     }
 }
