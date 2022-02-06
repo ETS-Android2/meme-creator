@@ -1,6 +1,7 @@
 package com.moringaschool.memecreator.interfaces;
 
 import com.moringaschool.memecreator.models.Data;
+import com.moringaschool.memecreator.models.ImgflipMemePostResponse;
 import com.moringaschool.memecreator.models.ImgflipMemeSearchResponse;
 import com.moringaschool.memecreator.models.Meme;
 
@@ -17,5 +18,5 @@ public interface ImgflipAPI {
     Call<ImgflipMemeSearchResponse> getMeme();
 
     @POST("caption_image")
-    Call<ImgflipMemeSearchResponse> postMeme(@Query( "template_id") String templateId, @Body String username, @Body String password, @Query("text0") String text0, @Query("text1") String text1);
+    Call<ImgflipMemePostResponse> postMeme(@Query( "template_id") String templateId, @Query("username") String username, @Query("password") String password, @Query("text0") String text0, @Query("text1") String text1);
 }
