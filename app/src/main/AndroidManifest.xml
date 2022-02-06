@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.MemeCreatorActivity"
+            android:name=".ui.CreatedMemeActivity"
             android:exported="false">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.moringaschool.memecreator.ui.MainActivity">

@@ -12,7 +12,7 @@ import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
-import com.moringaschool.memecreator.ui.MemeCreatorActivity;
+import com.moringaschool.memecreator.ui.CreatedMemeActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,10 +20,10 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class MemeCreatorActivityInstrumentationTest {
+public class CreatedMemeActivityInstrumentationTest {
 
     @Rule
-    public ActivityScenarioRule<MemeCreatorActivity> activityScenario = new ActivityScenarioRule<MemeCreatorActivity>(MemeCreatorActivity.class);
+    public ActivityScenarioRule<CreatedMemeActivity> activityScenario = new ActivityScenarioRule<CreatedMemeActivity>(CreatedMemeActivity.class);
 
     @Test
     public void validateTextInput() {
