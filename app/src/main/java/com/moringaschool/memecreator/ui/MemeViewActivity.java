@@ -37,8 +37,8 @@ public class MemeViewActivity extends AppCompatActivity implements View.OnClickL
     @BindView(R.id.text0) EditText mEditText0;
     @BindView(R.id.text1) EditText mEditText1;
 
-    ImgflipAPI imgflipAPI;
-
+    private ImgflipAPI imgflipAPI;
+    private String newImageUrl;
 
 
     @Override
@@ -82,7 +82,13 @@ public class MemeViewActivity extends AppCompatActivity implements View.OnClickL
                 public void onResponse(Call<ImgflipMemePostResponse> call, Response<ImgflipMemePostResponse> response) {
                     Log.e("MY POST RESPONSE", response.raw().toString());
                     PostData postData = response.body().getData();
+                    newImageUrl = postData.getUrl();
 
+                    Log.e("MY NEW IMAGE URL", newImageUrl);
+
+                    Intent intent2 = new Intent(MemeViewActivity.this, CreatedMemeActivity.class);
+                    intent2.putExtra("newImageUrl", newImageUrl);
+                    startActivity(intent2);
 
                 }
 
