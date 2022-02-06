@@ -17,5 +17,5 @@ public interface ImgflipAPI {
     Call<ImgflipMemeSearchResponse> getMeme();
 
     @POST("caption_image")
-    Call<ImgflipMemeSearchResponse> postMeme( @Query( "template_id") String templateId, @Body String username, @Body String password, @Query("text0") String text0, @Query("text1") String text1);
+    Call<ImgflipMemeSearchResponse> postMeme(@Query( "template_id") String templateId, @Body String username, @Body String password, @Query("text0") String text0, @Query("text1") String text1);
 }

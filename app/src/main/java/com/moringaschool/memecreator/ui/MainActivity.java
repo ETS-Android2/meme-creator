@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String imageId = meme.getId();
                 Log.e("MY MEME NAME", name);
 
-                Intent intent = new Intent(MainActivity.this, MemeView.class);
+                Intent intent = new Intent(MainActivity.this, MemeViewActivity.class);
                 intent.putExtra("name", name);
                 intent.putExtra("imageUrl", imageUrl);
                 intent.putExtra("imageId", imageId);

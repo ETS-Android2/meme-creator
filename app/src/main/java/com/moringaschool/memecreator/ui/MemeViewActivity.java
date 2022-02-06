@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MemeView extends AppCompatActivity implements View.OnClickListener {
+public class MemeViewActivity extends AppCompatActivity implements View.OnClickListener {
     @BindView(R.id.memeName) TextView mTextView;
     @BindView(R.id.memeImage)
     ImageView mImageView;

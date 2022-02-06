@@ -28,7 +28,7 @@
             </meta-data>
         </activity>
         <activity
-            android:name=".ui.MemeView"
+            android:name=".ui.MemeViewActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
