@@ -67,11 +67,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 meme = memes.get(random.nextInt(memes.size()));
                 name = meme.getName();
                 imageUrl = meme.getUrl();
+                String imageId = meme.getId();
                 Log.e("MY MEME NAME", name);
 
                 Intent intent = new Intent(MainActivity.this, MemeView.class);
                 intent.putExtra("name", name);
                 intent.putExtra("imageUrl", imageUrl);
+                intent.putExtra("imageId", imageId);
                 startActivity(intent);
             }
 
