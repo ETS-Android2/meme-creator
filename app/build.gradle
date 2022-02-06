@@ -24,6 +24,8 @@ android {
 
     buildTypes.each {
         it.buildConfigField 'String', 'BASE_URL', ImgflipApiUrl
+        it.buildConfigField 'String', 'USERNAME', ImgflipApiUsername
+        it.buildConfigField 'String', 'PASSWORD', ImgflipApiPassword
     }
 
     compileOptions {
