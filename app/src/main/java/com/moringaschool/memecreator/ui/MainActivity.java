@@ -1,6 +1,9 @@
 package com.moringaschool.memecreator.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,7 +28,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
     @BindView(R.id.button) Button mButton;
+
     private Data data;
     private List<Meme> memes;
     private Meme meme;
@@ -39,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        replaceTitleFragment(new SimpleFragment());
 
         mButton.setOnClickListener(this);
 
@@ -87,5 +93,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.e("MY RESPONSE", t.getMessage());
             }
         });
+    }
+
+    private void replaceTitleFragment(Fragment fragment) {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.welcomeTextLayout, fragment);
+        fragmentTransaction.commit();
+
     }
 }

@@ -12,6 +12,10 @@ import com.moringaschool.memecreator.R;
 
 public class SimpleFragment extends Fragment {
 
+    public SimpleFragment() {
+
+    }
+
     View view;
 
     @Override
