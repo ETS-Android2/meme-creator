@@ -65,6 +65,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 memes = data.getMemes();
                 Random random = new Random();
                 meme = memes.get(random.nextInt(memes.size()));
+
+                if(meme.getBoxCount() > 2) {
+                    meme = memes.get(random.nextInt(memes.size()));
+                }
+
                 name = meme.getName();
                 imageUrl = meme.getUrl();
                 String imageId = meme.getId();
