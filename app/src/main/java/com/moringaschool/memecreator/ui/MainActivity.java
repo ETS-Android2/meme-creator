@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Data data;
     private List<Meme> memes;
-    private Meme meme;
     private String name;
     private String imageUrl;
 
@@ -44,6 +43,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+//        Fragment myFragment = new SimpleFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putString("imageUrl", "");
+//        myFragment.setArguments(bundle);
+
         replaceTitleFragment(new SimpleFragment());
 
         mButton.setOnClickListener(this);
@@ -70,18 +74,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 data = response.body().getData();
                 memes = data.getMemes();
                 Random random = new Random();
-                meme = memes.get(random.nextInt(memes.size()));
 
-                if(meme.getBoxCount() > 2) {
-                    meme = memes.get(random.nextInt(memes.size()));
+                Meme selectedMeme = null;
+
+                while(selectedMeme == null) {
+                    Meme randomMeme = memes.get(random.nextInt(memes.size()));
+                    if(randomMeme.getBoxCount() > 2) {
+
+                    } else {
+                        selectedMeme = randomMeme;
+                    }
                 }
 
-                name = meme.getName();
-                imageUrl = meme.getUrl();
-                String imageId = meme.getId();
+                name = selectedMeme.getName();
+                imageUrl = selectedMeme.getUrl();
+                String imageId = selectedMeme.getId();
                 Log.e("MY MEME NAME", name);
 
                 Intent intent = new Intent(MainActivity.this, MemeViewActivity.class);
+                intent.putExtra("meme", selectedMeme);
                 intent.putExtra("name", name);
                 intent.putExtra("imageUrl", imageUrl);
                 intent.putExtra("imageId", imageId);

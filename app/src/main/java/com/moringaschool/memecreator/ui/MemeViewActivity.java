@@ -19,6 +19,7 @@ import com.moringaschool.memecreator.interfaces.ImgflipAPI;
 import com.moringaschool.memecreator.models.Data;
 import com.moringaschool.memecreator.models.ImgflipMemePostResponse;
 import com.moringaschool.memecreator.models.ImgflipMemeSearchResponse;
+import com.moringaschool.memecreator.models.Meme;
 import com.moringaschool.memecreator.models.PostData;
 import com.squareup.picasso.Picasso;
 
@@ -52,6 +53,7 @@ public class MemeViewActivity extends AppCompatActivity implements View.OnClickL
         mButton.setOnClickListener(this);
 
         Intent intent = getIntent();
+        Meme meme = (Meme) intent.getSerializableExtra("meme");
         String name = intent.getStringExtra("name");
         String imageUrl = intent.getStringExtra("imageUrl");
 

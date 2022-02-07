@@ -2,6 +2,7 @@ package com.moringaschool.memecreator.ui;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -25,4 +26,12 @@ public class SimpleFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_simple, container, false);
         return view;
     }
+
+//    @Override
+//    public void onCreate(@Nullable Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        Bundle bundle = getArguments();
+//        String imageUrl = bundle.getString("imageUrl");
+//
+//    }
 }
