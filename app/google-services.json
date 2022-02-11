@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1005115810002",
+    "project_id": "meme-creator-462dc",
+    "storage_bucket": "meme-creator-462dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1005115810002:android:a557039cc5a62ca86dcd0b",
+        "android_client_info": {
+          "package_name": "com.moringaschool.memecreator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1005115810002-6gq8o2ecdgb5tqnr56lbm083ghpqsf8n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPmGnqc9SsL635oFKO-eESr4Wedz4n70Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1005115810002-6gq8o2ecdgb5tqnr56lbm083ghpqsf8n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
