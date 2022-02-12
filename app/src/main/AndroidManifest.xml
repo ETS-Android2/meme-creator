@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MemeCreator">
         <activity
+            android:name=".ui.CreateAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.LoginActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -24,17 +30,17 @@
             android:name=".ui.CreatedMemeActivity"
             android:exported="false"
             android:theme="@style/Theme.MemeCreator">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.moringaschool.memecreator.ui.MainActivity">
-            </meta-data>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.moringaschool.memecreator.ui.MainActivity" />
         </activity>
         <activity
             android:name=".ui.MemeViewActivity"
             android:exported="false"
             android:theme="@style/Theme.MemeCreator">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.moringaschool.memecreator.ui.MainActivity">
-            </meta-data>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.moringaschool.memecreator.ui.MainActivity" />
         </activity>
 
         <meta-data
