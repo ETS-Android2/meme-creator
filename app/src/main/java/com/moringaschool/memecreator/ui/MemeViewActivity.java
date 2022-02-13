@@ -16,9 +16,7 @@ import com.moringaschool.memecreator.Constants;
 import com.moringaschool.memecreator.R;
 import com.moringaschool.memecreator.clients.ImgflipClient;
 import com.moringaschool.memecreator.interfaces.ImgflipAPI;
-import com.moringaschool.memecreator.models.Data;
 import com.moringaschool.memecreator.models.ImgflipMemePostResponse;
-import com.moringaschool.memecreator.models.ImgflipMemeSearchResponse;
 import com.moringaschool.memecreator.models.Meme;
 import com.moringaschool.memecreator.models.PostData;
 import com.squareup.picasso.Picasso;
@@ -88,7 +86,7 @@ public class MemeViewActivity extends AppCompatActivity implements View.OnClickL
 
                     Log.e("MY NEW IMAGE URL", newImageUrl);
 
-                    Intent intent2 = new Intent(MemeViewActivity.this, CreatedMemeActivity.class);
+                    Intent intent2 = new Intent(MemeViewActivity.this, CreatedMemesActivity.class);
                     intent2.putExtra("newImageUrl", newImageUrl);
                     startActivity(intent2);
 

@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CreatedMemeActivity extends AppCompatActivity {
+public class CreatedMemesActivity extends AppCompatActivity {
     @BindView(R.id.newMeme)
     ImageView mImageView;
     @BindView(R.id.progressBar)

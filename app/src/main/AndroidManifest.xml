@@ -28,7 +28,7 @@
             android:exported="false">
         </activity>
         <activity
-            android:name=".ui.CreatedMemeActivity"
+            android:name=".ui.CreatedMemesActivity"
             android:exported="false"
             android:theme="@style/Theme.MemeCreator">
             <meta-data

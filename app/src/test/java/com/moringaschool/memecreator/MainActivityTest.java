@@ -5,8 +5,8 @@ import static org.junit.Assert.*;
 import android.content.Intent;
 import android.widget.TextView;
 
+import com.moringaschool.memecreator.ui.CreatedMemesActivity;
 import com.moringaschool.memecreator.ui.MainActivity;
-import com.moringaschool.memecreator.ui.CreatedMemeActivity;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +39,7 @@ public class MainActivityTest {
     @Test
     public void secondActivityGetsStarted() {
         activity.findViewById(R.id.button).performClick();
-        Intent intent = new Intent(activity, CreatedMemeActivity.class);
+        Intent intent = new Intent(activity, CreatedMemesActivity.class);
         ShadowActivity shadowActivity = Shadows.shadowOf(activity);
         Intent expectedIntent = shadowActivity.getNextStartedActivity();
         assertTrue(intent.filterEquals(expectedIntent));
