@@ -28,7 +28,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     EditText mNewEmailEditText;
     @BindView(R.id.newPasswordEditText) EditText mNewPasswordEditText;
     @BindView(R.id.confirmPasswordEditText) EditText mConfirmPasswordEditText;
-    @BindView(R.id.createAccountTextView)
+    @BindView(R.id.createNewAccountTextView)
     TextView mCreateAccountTextView;
     @BindView(R.id.loginAccountTextView) TextView mLoginAccountTextView;
 
