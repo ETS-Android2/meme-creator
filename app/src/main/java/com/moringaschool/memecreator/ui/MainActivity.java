@@ -19,6 +19,8 @@ import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.moringaschool.memecreator.Constants;
 import com.moringaschool.memecreator.R;
 import com.moringaschool.memecreator.clients.ImgflipClient;
@@ -52,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -8,6 +8,8 @@ import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.moringaschool.memecreator.R;
 import com.squareup.picasso.Picasso;
 
@@ -19,8 +21,8 @@ public class CreatedMemesActivity extends AppCompatActivity {
     ImageView mImageView;
     @BindView(R.id.progressBar)
     ProgressBar mProgressBar;
-    private String newImageUrl;
 
+    private String newImageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,9 @@ public class CreatedMemesActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         newImageUrl = intent.getStringExtra("newImageUrl");
+
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference();
+
 
         loadPicasso();
 
