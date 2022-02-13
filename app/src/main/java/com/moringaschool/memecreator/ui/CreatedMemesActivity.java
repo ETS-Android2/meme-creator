@@ -27,7 +27,6 @@ public class CreatedMemesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.created_meme);
         ButterKnife.bind(this);
-        loading(true);
 
         Intent intent = getIntent();
         newImageUrl = intent.getStringExtra("newImageUrl");
@@ -36,19 +35,7 @@ public class CreatedMemesActivity extends AppCompatActivity {
 
     }
 
-    private void loading(Boolean loading) {
-        if(loading) {
-            mProgressBar.setVisibility(View.VISIBLE);
-            mImageView.setVisibility(View.GONE);
-        }
-        else {
-            mProgressBar.setVisibility(View.GONE);
-            mImageView.setVisibility(View.VISIBLE);
-        }
-    }
-
     private void loadPicasso() {
-        loading(false);
         Picasso.get().load(newImageUrl).into(mImageView);
     }
 

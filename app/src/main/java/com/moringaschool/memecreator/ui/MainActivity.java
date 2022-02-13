@@ -7,7 +7,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +19,7 @@ import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.moringaschool.memecreator.Constants;
 import com.moringaschool.memecreator.R;
 import com.moringaschool.memecreator.clients.ImgflipClient;
 import com.moringaschool.memecreator.interfaces.ImgflipAPI;
@@ -47,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        Bundle bundle = new Bundle();
 //        bundle.putString("imageUrl", "");
 //        myFragment.setArguments(bundle);
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mEditor = mSharedPreferences.edit();
 
         mAuth = FirebaseAuth.getInstance();
         createAuthStateListener();
@@ -155,6 +164,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String imageId = selectedMeme.getId();
                 Log.e("MY MEME NAME", name);
 
+                addToSharedPreferences(name);
+
                 Intent intent = new Intent(MainActivity.this, MemeViewActivity.class);
                 intent.putExtra("meme", selectedMeme);
                 intent.putExtra("name", name);
@@ -177,5 +188,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentTransaction.replace(R.id.welcomeTextLayout, fragment);
         fragmentTransaction.commit();
 
+    }
+
+    private void addToSharedPreferences(String name) {
+        mEditor.putString(Constants.SHARED_PREFERENCES_MEME_NAME, name);
     }
 }
