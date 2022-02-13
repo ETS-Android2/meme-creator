@@ -2,12 +2,14 @@ package com.moringaschool.memecreator.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @BindView(R.id.passwordEditText) EditText
     mPasswordEditText;
     @BindView(R.id.loginTextView) TextView mLoginTextView;
+    @BindView(R.id.loginConstraint)
+    ConstraintLayout mLoginConstraint;
+    @BindView(R.id.firebaseProgressBar2)
+    ProgressBar mFirebaseProgressBar2;
+    @BindView(R.id.loadingTextView2) TextView mLoadingTextView2;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -84,32 +91,48 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         if(view == mLoginTextView) {
-            String email = mEmailEditText.getText().toString().trim();
-            String password = mPasswordEditText.getText().toString().trim();
-
-            if (email.equals("")) {
-                mEmailEditText.setError("Email cannot be blank.");
-                return;
-            }
-
-            if (password.equals("")) {
-                mPasswordEditText.setError("Password cannot be blank.");
-                return;
-            }
-
-            mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        Log.d(TAG, "Login successful!");
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_LONG).show();
-                        Log.d(TAG,"LoginWithEmail: ", task.getException());
-                    }
-                }
-            });
+            showProgressBar();
+            loginUser();
         }
     }
 
+    private void loginUser() {
+        String email = mEmailEditText.getText().toString().trim();
+        String password = mPasswordEditText.getText().toString().trim();
 
+        if (email.equals("")) {
+            mEmailEditText.setError("Email cannot be blank.");
+            return;
+        }
+
+        if (password.equals("")) {
+            mPasswordEditText.setError("Password cannot be blank.");
+            return;
+        }
+
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                hideProgressBar();
+                if (task.isSuccessful()) {
+                    Log.d(TAG, "Login successful!");
+                } else {
+                    Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_LONG).show();
+                    Log.d(TAG,"LoginWithEmail: ", task.getException());
+                }
+            }
+        });
+    }
+
+    private void showProgressBar() {
+        mLoginConstraint.setVisibility(View.GONE);
+        mFirebaseProgressBar2.setVisibility(View.VISIBLE);
+        mLoadingTextView2.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressBar() {
+        mLoginConstraint.setVisibility(View.VISIBLE);
+        mFirebaseProgressBar2.setVisibility(View.GONE);
+        mLoadingTextView2.setVisibility(View.GONE);
+    }
 }

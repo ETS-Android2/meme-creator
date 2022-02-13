@@ -2,6 +2,7 @@ package com.moringaschool.memecreator.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +37,11 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     @BindView(R.id.createNewAccountTextView)
     TextView mCreateAccountTextView;
     @BindView(R.id.loginAccountTextView) TextView mLoginAccountTextView;
+    @BindView(R.id.firebaseProgressBar1)
+    ProgressBar mFirebaseProgressBar1;
+    @BindView(R.id.loadingTextView1) TextView mLoadingTextView1;
+    @BindView(R.id.createAccountConstraint)
+    ConstraintLayout mCreateAccountConstraint;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -84,6 +91,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View view) {
         if (view == mCreateAccountTextView) {
+            showProgressBar();
             createNewUser();
         }
         if(view == mLoginAccountTextView) {
@@ -122,6 +130,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+                hideProgressBar();
                 if (task.isSuccessful()) {
                     Log.d(TAG, "Authentication Successful");
                     updateFirebaseUserProfile(Objects.requireNonNull(task.getResult().getUser()));
@@ -149,5 +158,17 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                 }
             }
         });
+    }
+
+    private void showProgressBar() {
+        mCreateAccountConstraint.setVisibility(View.GONE);
+        mFirebaseProgressBar1.setVisibility(View.VISIBLE);
+        mLoadingTextView1.setVisibility(View.GONE);
+    }
+
+    private void hideProgressBar() {
+        mCreateAccountConstraint.setVisibility(View.VISIBLE);
+        mFirebaseProgressBar1.setVisibility(View.GONE);
+        mLoadingTextView1.setVisibility(View.GONE);
     }
 }
