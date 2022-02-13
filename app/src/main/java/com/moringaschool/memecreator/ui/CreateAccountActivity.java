@@ -3,6 +3,7 @@ package com.moringaschool.memecreator.ui;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -29,6 +30,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     @BindView(R.id.confirmPasswordEditText) EditText mConfirmPasswordEditText;
     @BindView(R.id.createAccountTextView)
     TextView mCreateAccountTextView;
+    @BindView(R.id.loginAccountTextView) TextView mLoginAccountTextView;
 
     private FirebaseAuth mAuth;
 
@@ -48,6 +50,12 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     public void onClick(View view) {
         if (view == mCreateAccountTextView) {
             createNewUser();
+        }
+        if(view == mLoginAccountTextView) {
+            Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
         }
     }
 
