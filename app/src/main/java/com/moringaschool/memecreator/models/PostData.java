@@ -13,6 +13,8 @@ public class PostData {
     @Expose
     private String pageUrl;
 
+    private String pushId;
+
     /**
      * No args constructor for use in serialization
      *
@@ -47,4 +49,11 @@ public class PostData {
         this.pageUrl = pageUrl;
     }
 
+    public String getPushId() {
+        return pushId;
+    }
+
+    public void setPushId(String pushId) {
+        this.pushId = pushId;
+    }
 }
