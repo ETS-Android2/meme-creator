@@ -16,7 +16,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.moringaschool.memecreator.R;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +37,9 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     @BindView(R.id.loginAccountTextView) TextView mLoginAccountTextView;
 
     private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
+    private String mName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +50,35 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         mCreateAccountTextView.setOnClickListener(this);
 
         mAuth = FirebaseAuth.getInstance();
+        createAuthStateListener();
 
+    }
+
+    private void createAuthStateListener() {
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                if(firebaseUser != null) {
+                    Intent intent = new Intent(CreateAccountActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        };
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mAuth.removeAuthStateListener(mAuthListener);
     }
 
     @Override
@@ -60,12 +95,12 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     private void createNewUser() {
-        String name = mNameEditText.getText().toString().trim();
+        mName = mNameEditText.getText().toString().trim();
         String email = mNewEmailEditText.getText().toString().trim();
         String password = mNewPasswordEditText.getText().toString().trim();
         String confirmPassword = mConfirmPasswordEditText.getText().toString().trim();
 
-        if (name.equals("")) {
+        if (mName.equals("")) {
             mNameEditText.setError("You cannot enter an empty string");
             return;
         }
@@ -89,8 +124,28 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "Authentication Successful");
+                    updateFirebaseUserProfile(Objects.requireNonNull(task.getResult().getUser()));
                 } else {
                     Log.d(TAG, "Authentication Failed");
+                }
+            }
+        });
+    }
+
+    private void updateFirebaseUserProfile(final FirebaseUser user) {
+
+        UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
+                .setDisplayName(mName)
+                .build();
+
+        user.updateProfile(request).addOnCompleteListener(this, new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()) {
+                    Log.d(TAG, user.getDisplayName());
+                    Toast.makeText(CreateAccountActivity.this, "Name successfully added.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(CreateAccountActivity.this, "There's been an error", Toast.LENGTH_LONG);
                 }
             }
         });
