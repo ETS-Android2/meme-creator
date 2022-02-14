@@ -116,9 +116,9 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             mNewEmailEditText.setError("Invalid Email.");
             return;
         }
-        if (password.equals("") || confirmPassword.equals("")) {
-            mNewPasswordEditText.setError("Invalid Password.");
-            mConfirmPasswordEditText.setError("Invalid Password");
+        if (password.length() < 6 || confirmPassword.length() < 6) {
+            mNewPasswordEditText.setError("Password must be more than 6 characters");
+            mConfirmPasswordEditText.setError("Password must be more than 6 characters");
             return;
         }
         if (!password.equals(confirmPassword)) {
