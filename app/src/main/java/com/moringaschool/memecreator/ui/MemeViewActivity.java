@@ -50,13 +50,13 @@ public class MemeViewActivity extends AppCompatActivity implements View.OnClickL
     @BindView(R.id.text1) EditText mEditText1;
 
     private ImgflipAPI imgflipAPI;
-    private String newImageUrl;
 
     private String memeName;
     private PostData postData;
+    Meme meme;
 
-    private ArrayList<String> mMemeNames;
-    private ArrayList<String> mCreatedMemesUrl;
+    private ArrayList<String> mMemeNames = new ArrayList<>();
+    private ArrayList<String> mCreatedMemesUrl = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +69,12 @@ public class MemeViewActivity extends AppCompatActivity implements View.OnClickL
         mButton.setOnClickListener(this);
 
         Intent intent = getIntent();
-        Meme meme = (Meme) intent.getSerializableExtra("meme");
+        meme = (Meme) intent.getSerializableExtra("meme");
         memeName = intent.getStringExtra("name");
-        String imageUrl = intent.getStringExtra("imageUrl");
+//        String imageUrl = intent.getStringExtra("imageUrl");
 
-        mTextView.setText(memeName);
-        Picasso.get().load(imageUrl).into(mImageView);
+        mTextView.setText(meme.getName());
+        Picasso.get().load(meme.getUrl()).into(mImageView);
 
     }
 
@@ -87,28 +87,18 @@ public class MemeViewActivity extends AppCompatActivity implements View.OnClickL
 
     private void myPostRequest() {
 
-        if(mEditText0.equals("") || mEditText1.equals("")) {
-            Toast.makeText(this, "Put some text first before you submit!", Toast.LENGTH_LONG).show();
-        }
-
-        else {
             Call<ImgflipMemePostResponse> call = imgflipAPI
-                    .postMeme(getIntent().getStringExtra("imageId"), Constants.USERNAME, Constants.PASSWORD, mEditText0.getText().toString(), mEditText1.getText().toString());
+                    .postMeme(meme.getId(), Constants.USERNAME, Constants.PASSWORD, mEditText0.getText().toString(), mEditText1.getText().toString());
 
             call.enqueue(new Callback<ImgflipMemePostResponse>() {
                 @Override
                 public void onResponse(Call<ImgflipMemePostResponse> call, Response<ImgflipMemePostResponse> response) {
                     Log.e("MY POST RESPONSE", response.raw().toString());
+                    assert response.body() != null;
                     postData = response.body().getData();
-                    newImageUrl = postData.getUrl();
-
-                    Log.e("MY NEW IMAGE URL", newImageUrl);
+                    Log.e("MY POST DATA", postData.getUrl());
 
                     saveMemeToFirebase();
-
-                    Intent intent2 = new Intent(MemeViewActivity.this, CreatedMemesActivity.class);
-                    intent2.putExtra("newImageUrl", newImageUrl);
-                    startActivity(intent2);
 
                 }
 
@@ -120,13 +110,10 @@ public class MemeViewActivity extends AppCompatActivity implements View.OnClickL
             });
         }
 
-
-    }
-
     private void saveMemeToFirebase() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String userId = user.getUid();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance()
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance("https://meme-creator-462dc-default-rtdb.firebaseio.com/")
                 .getReference(Constants.FIREBASE_CREATED_MEMES).child(userId);
 
         DatabaseReference pushReference = databaseReference.push();
@@ -134,35 +121,12 @@ public class MemeViewActivity extends AppCompatActivity implements View.OnClickL
         postData.setPushId(pushId);
         pushReference.setValue(postData);
 
+        mCreatedMemesUrl.add(postData.getUrl());
+
         Toast.makeText(MemeViewActivity.this, "Meme Created!", Toast.LENGTH_SHORT).show();
 
-        valueEventListenerToFirebase();
-    }
-
-    private void valueEventListenerToFirebase() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String userId = user.getUid();
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-                .getReference(Constants.FIREBASE_CREATED_MEMES).child(userId);
-
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                PostData postData = snapshot.getValue(PostData.class);
-                mMemeNames.add(memeName);
-                assert postData != null;
-                mCreatedMemesUrl.add(postData.getUrl());
-
-                Intent intent2 = new Intent(MemeViewActivity.this, CreatedMemesActivity.class);
-                intent2.putExtra("memeNames", mMemeNames);
-                intent2.putExtra("createdMemesUrl", mCreatedMemesUrl);
-                startActivity(intent2);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d(TAG, error.getMessage());
-            }
-        });
+        Intent intent2 = new Intent(MemeViewActivity.this, MainActivity.class);
+        intent2.putStringArrayListExtra("createdMemeUrls", mCreatedMemesUrl);
+        startActivity(intent2);
     }
 }

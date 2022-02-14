@@ -29,6 +29,7 @@ import com.moringaschool.memecreator.models.Data;
 import com.moringaschool.memecreator.models.ImgflipMemeSearchResponse;
 import com.moringaschool.memecreator.models.Meme;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -41,11 +42,11 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.button) Button mButton;
+    @BindView(R.id.viewCreatedMemesButton) Button mViewCreatedMemesButton;
 
     private Data data;
     private List<Meme> memes;
     private String name;
-    private String imageUrl;
 
     private ImgflipAPI imgflipAPI;
 
@@ -54,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
+
+    private ArrayList<String> memeNames = new ArrayList<>();
+    private ArrayList<String> createdMemeUrls;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        bundle.putString("imageUrl", "");
 //        myFragment.setArguments(bundle);
 
+        createdMemeUrls = getIntent().getStringArrayListExtra("createdMemeUrls");
+
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mEditor = mSharedPreferences.edit();
 
@@ -75,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         replaceTitleFragment(new SimpleFragment());
 
         mButton.setOnClickListener(this);
+        mViewCreatedMemesButton.setOnClickListener(this);
 
         imgflipAPI = ImgflipClient.getClient();
     }
@@ -108,6 +115,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view ) {
         if (view == mButton) {
             myRequest();
+        }
+
+        if (view == mViewCreatedMemesButton) {
+            Intent newIntent = new Intent(MainActivity.this, CreatedMemesActivity.class);
+            newIntent.putStringArrayListExtra("memeNames", memeNames);
+            newIntent.putStringArrayListExtra("createdMemesUrl", createdMemeUrls);
+            startActivity(newIntent);
         }
     }
 
@@ -161,15 +175,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 name = selectedMeme.getName();
-                imageUrl = selectedMeme.getUrl();
-                String imageId = selectedMeme.getId();
+                memeNames.add(name);
                 Log.e("MY MEME NAME", name);
 
                 Intent intent = new Intent(MainActivity.this, MemeViewActivity.class);
                 intent.putExtra("meme", selectedMeme);
-                intent.putExtra("name", name);
-                intent.putExtra("imageUrl", imageUrl);
-                intent.putExtra("imageId", imageId);
+//                intent.putExtra("name", name);
+//                intent.putExtra("imageUrl", imageUrl);
+//                intent.putExtra("imageId", imageId);
                 startActivity(intent);
             }
 

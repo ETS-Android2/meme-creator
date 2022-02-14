@@ -11,7 +11,7 @@ public class ImgflipMemePostResponse {
     private Boolean success;
     @SerializedName("data")
     @Expose
-    private PostData postData;
+    private PostData data;
 
     /**
      * No args constructor for use in serialization
@@ -28,7 +28,7 @@ public class ImgflipMemePostResponse {
     public ImgflipMemePostResponse(Boolean success, PostData data) {
         super();
         this.success = success;
-        this.postData = postData;
+        this.data = data;
     }
 
     public Boolean getSuccess() {
@@ -40,11 +40,11 @@ public class ImgflipMemePostResponse {
     }
 
     public PostData getData() {
-        return postData;
+        return data;
     }
 
-    public void setData(PostData postData) {
-        this.postData = postData;
+    public void setData(PostData data) {
+        this.data = data;
     }
 
 }

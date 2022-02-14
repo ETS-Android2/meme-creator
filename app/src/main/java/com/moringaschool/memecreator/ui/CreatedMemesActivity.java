@@ -2,13 +2,11 @@ package com.moringaschool.memecreator.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -17,10 +15,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.moringaschool.memecreator.Constants;
 import com.moringaschool.memecreator.R;
-import com.moringaschool.memecreator.adapters.CreatedMemesRecyclerViewAdapter;
-import com.squareup.picasso.Picasso;
+import com.moringaschool.memecreator.adapters.CreatedMemesListViewAdapter;
+import com.moringaschool.memecreator.models.PostData;
 
 import java.util.ArrayList;
 
@@ -28,29 +25,72 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CreatedMemesActivity extends AppCompatActivity {
-    @BindView(R.id.createdMemesRecyclerView)
-    RecyclerView mCreatedMemesRecyclerView;
+    @BindView(R.id.listView)
+    ListView mListView;
+
+    Intent intent;
 
     private ArrayList<String> mMemeNames;
-    private ArrayList<String> mCreatedMemesUrl;
+    private ArrayList<String> mCreatedMemesUrl = new ArrayList<>();
+
+    private FirebaseDatabase myDatabase;
+    private DatabaseReference myRef;
+    private FirebaseAuth mAuth;
+
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.created_memes);
+        setContentView(R.layout.memes_created);
         ButterKnife.bind(this);
 
-        Intent intent = getIntent();
-        mMemeNames = intent.getStringArrayListExtra("memeNames");
-        mCreatedMemesUrl = intent.getStringArrayListExtra("createdMemesUrl");
+        intent = getIntent();
 
-        CreatedMemesRecyclerViewAdapter myAdapter = new CreatedMemesRecyclerViewAdapter(CreatedMemesActivity.this, mMemeNames, mCreatedMemesUrl);
-        mCreatedMemesRecyclerView.setAdapter(myAdapter);
-        mCreatedMemesRecyclerView.setLayoutManager(new LinearLayoutManager(CreatedMemesActivity.this));
+        mAuth = FirebaseAuth.getInstance();
+        myDatabase = FirebaseDatabase.getInstance("https://meme-creator-462dc-default-rtdb.firebaseio.com/");
+        myRef = myDatabase.getReference();
+        FirebaseUser user = mAuth.getCurrentUser();
+        userId = user.getUid();
+
+        mMemeNames = intent.getStringArrayListExtra("memeNames");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                showData(snapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
+//        Intent intent = getIntent();
+//        mMemeNames = intent.getStringArrayListExtra("memeNames");
+//        mCreatedMemesUrl = intent.getStringArrayListExtra("createdMemesUrl");
+//
+//        CreatedMemesRecyclerViewAdapter myAdapter = new CreatedMemesRecyclerViewAdapter(CreatedMemesActivity.this, mMemeNames, mCreatedMemesUrl);
+//        mCreatedMemesRecyclerView.setAdapter(myAdapter);
+//        mCreatedMemesRecyclerView.setLayoutManager(new LinearLayoutManager(CreatedMemesActivity.this));
 
     }
 
+    private void showData(DataSnapshot snapshot) {
+        for(DataSnapshot ds : snapshot.getChildren()) {
+            DataSnapshot ds2 = ds.child(userId);
+            for(DataSnapshot ds3 : ds2.getChildren()) {
+                mCreatedMemesUrl.add(ds3.getValue(PostData.class).getUrl());
+            }
 
+            CreatedMemesListViewAdapter myAdapter = new CreatedMemesListViewAdapter(CreatedMemesActivity.this, R.layout.created_meme, mCreatedMemesUrl);
+            mListView.setAdapter(myAdapter);
+        }
+    }
 
 
 }
