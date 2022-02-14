@@ -165,8 +165,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String imageId = selectedMeme.getId();
                 Log.e("MY MEME NAME", name);
 
-                addToSharedPreferences(name);
-
                 Intent intent = new Intent(MainActivity.this, MemeViewActivity.class);
                 intent.putExtra("meme", selectedMeme);
                 intent.putExtra("name", name);
@@ -192,6 +190,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void addToSharedPreferences(String name) {
-        mEditor.putString(Constants.SHARED_PREFERENCES_MEME_NAME, name);
+        mEditor.putString(Constants.SHARED_PREFERENCES_USER_NAME, name);
     }
 }

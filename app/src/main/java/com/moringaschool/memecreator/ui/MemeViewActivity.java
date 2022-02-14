@@ -14,6 +14,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.moringaschool.memecreator.Constants;
 import com.moringaschool.memecreator.R;
 import com.moringaschool.memecreator.clients.ImgflipClient;
@@ -41,6 +45,9 @@ public class MemeViewActivity extends AppCompatActivity implements View.OnClickL
     private ImgflipAPI imgflipAPI;
     private String newImageUrl;
 
+    private String memeName;
+    private PostData postData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,10 +60,10 @@ public class MemeViewActivity extends AppCompatActivity implements View.OnClickL
 
         Intent intent = getIntent();
         Meme meme = (Meme) intent.getSerializableExtra("meme");
-        String name = intent.getStringExtra("name");
+        memeName = intent.getStringExtra("name");
         String imageUrl = intent.getStringExtra("imageUrl");
 
-        mTextView.setText(name);
+        mTextView.setText(memeName);
         Picasso.get().load(imageUrl).into(mImageView);
 
     }
@@ -82,10 +89,12 @@ public class MemeViewActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public void onResponse(Call<ImgflipMemePostResponse> call, Response<ImgflipMemePostResponse> response) {
                     Log.e("MY POST RESPONSE", response.raw().toString());
-                    PostData postData = response.body().getData();
+                    postData = response.body().getData();
                     newImageUrl = postData.getUrl();
 
                     Log.e("MY NEW IMAGE URL", newImageUrl);
+
+                    saveMemeToFirebase();
 
                     Intent intent2 = new Intent(MemeViewActivity.this, CreatedMemesActivity.class);
                     intent2.putExtra("newImageUrl", newImageUrl);
@@ -102,5 +111,19 @@ public class MemeViewActivity extends AppCompatActivity implements View.OnClickL
         }
 
 
+    }
+
+    private void saveMemeToFirebase() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userId = user.getUid();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance()
+                .getReference(Constants.FIREBASE_CREATED_MEMES).child(userId);
+
+        DatabaseReference pushReference = databaseReference.push();
+        String pushId = pushReference.getKey();
+        postData.setPushId(pushId);
+        pushReference.setValue(postData);
+
+        Toast.makeText(MemeViewActivity.this, "Meme Created!", Toast.LENGTH_SHORT).show();
     }
 }

@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -17,10 +18,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CreatedMemesActivity extends AppCompatActivity {
-    @BindView(R.id.newMeme)
-    ImageView mImageView;
-    @BindView(R.id.progressBar)
-    ProgressBar mProgressBar;
+    @BindView(R.id.createdMemesRecyclerView)
+    RecyclerView mCreatedMemesRecyclerView;
+
 
     private String newImageUrl;
 
@@ -33,17 +33,12 @@ public class CreatedMemesActivity extends AppCompatActivity {
         Intent intent = getIntent();
         newImageUrl = intent.getStringExtra("newImageUrl");
 
+
         DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child(Constants.FIREBASE_USERS);
 
-
-
-        loadPicasso();
-
     }
 
-    private void loadPicasso() {
-        Picasso.get().load(newImageUrl).into(mImageView);
-    }
+
 
 
 }
