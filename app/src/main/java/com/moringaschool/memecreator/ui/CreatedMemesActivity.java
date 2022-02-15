@@ -2,11 +2,15 @@ package com.moringaschool.memecreator.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,6 +31,10 @@ import butterknife.ButterKnife;
 public class CreatedMemesActivity extends AppCompatActivity {
     @BindView(R.id.listView)
     ListView mListView;
+    @BindView(R.id.progressBar2)
+    ProgressBar mProgressBar;
+    @BindView(R.id.textView6)
+    TextView mTextView6;
 
     Intent intent;
 
@@ -44,6 +52,7 @@ public class CreatedMemesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.memes_created);
         ButterKnife.bind(this);
+        showProgressBar();
 
         intent = getIntent();
 
@@ -66,18 +75,11 @@ public class CreatedMemesActivity extends AppCompatActivity {
 
             }
         });
+    }
 
-
-
-
-//        Intent intent = getIntent();
-//        mMemeNames = intent.getStringArrayListExtra("memeNames");
-//        mCreatedMemesUrl = intent.getStringArrayListExtra("createdMemesUrl");
-//
-//        CreatedMemesRecyclerViewAdapter myAdapter = new CreatedMemesRecyclerViewAdapter(CreatedMemesActivity.this, mMemeNames, mCreatedMemesUrl);
-//        mCreatedMemesRecyclerView.setAdapter(myAdapter);
-//        mCreatedMemesRecyclerView.setLayoutManager(new LinearLayoutManager(CreatedMemesActivity.this));
-
+    private void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mTextView6.setVisibility(View.VISIBLE);
     }
 
     private void showData(DataSnapshot snapshot) {
@@ -89,7 +91,13 @@ public class CreatedMemesActivity extends AppCompatActivity {
 
             CreatedMemesListViewAdapter myAdapter = new CreatedMemesListViewAdapter(CreatedMemesActivity.this, R.layout.created_meme, mCreatedMemesUrl);
             mListView.setAdapter(myAdapter);
+            hideProgressBar();
         }
+    }
+
+    private void hideProgressBar() {
+        mProgressBar.setVisibility(View.GONE);
+        mTextView6.setVisibility(View.GONE);
     }
 
 
