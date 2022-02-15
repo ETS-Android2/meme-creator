@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if (firebaseUser != null) {
                     getSupportActionBar().setTitle("Welcome " + firebaseUser.getDisplayName() + "!");
+                    addToSharedPreferences(firebaseUser.getDisplayName());
                 }
             }
         };

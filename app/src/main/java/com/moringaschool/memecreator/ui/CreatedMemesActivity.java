@@ -1,7 +1,10 @@
 package com.moringaschool.memecreator.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -19,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.moringaschool.memecreator.Constants;
 import com.moringaschool.memecreator.R;
 import com.moringaschool.memecreator.adapters.CreatedMemesListViewAdapter;
 import com.moringaschool.memecreator.models.PostData;
@@ -35,6 +39,7 @@ public class CreatedMemesActivity extends AppCompatActivity {
     ProgressBar mProgressBar;
     @BindView(R.id.textView6)
     TextView mTextView6;
+    @BindView(R.id.textView8) TextView mTextView8;
 
     Intent intent;
 
@@ -47,12 +52,18 @@ public class CreatedMemesActivity extends AppCompatActivity {
 
     private String userId;
 
+    private SharedPreferences mSharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.memes_created);
         ButterKnife.bind(this);
         showProgressBar();
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(CreatedMemesActivity.this);
+        String userName = mSharedPreferences.getString(Constants.SHARED_PREFERENCES_USER_NAME, null);
+        String title = userName + " the memes you created appear here";
+        mTextView8.setText(title);
 
         intent = getIntent();
 

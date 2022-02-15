@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -100,8 +101,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String email = mEmailEditText.getText().toString().trim();
         String password = mPasswordEditText.getText().toString().trim();
 
-        if (email.equals("")) {
-            mEmailEditText.setError("Email cannot be blank.");
+        if (email.equals("") || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            mEmailEditText.setError("Invalid Email");
             return;
         }
 
