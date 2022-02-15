@@ -53,11 +53,12 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
+        mAuth = FirebaseAuth.getInstance();
+        createAuthStateListener();
+
         ButterKnife.bind(this);
         mCreateAccountTextView.setOnClickListener(this);
 
-        mAuth = FirebaseAuth.getInstance();
-        createAuthStateListener();
 
     }
 
@@ -85,7 +86,9 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onStop() {
         super.onStop();
-        mAuth.removeAuthStateListener(mAuthListener);
+        if(mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
     }
 
     @Override

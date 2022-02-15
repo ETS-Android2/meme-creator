@@ -65,6 +65,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                assert firebaseUser != null;
+                if (firebaseUser.getDisplayName() != null) {
+                    getSupportActionBar().setTitle("Welcome " + firebaseUser.getDisplayName() + "!");
+                    addToSharedPreferences(firebaseUser.getDisplayName());
+                }
+            }
+        };
+
 //        Fragment myFragment = new SimpleFragment();
 //        Bundle bundle = new Bundle();
 //        bundle.putString("imageUrl", "");
@@ -75,29 +88,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         mEditor = mSharedPreferences.edit();
 
-        mAuth = FirebaseAuth.getInstance();
-        createAuthStateListener();
-
         replaceTitleFragment(new SimpleFragment());
 
         mButton.setOnClickListener(this);
         mViewCreatedMemesButton.setOnClickListener(this);
 
         imgflipAPI = ImgflipClient.getClient();
-    }
-
-    private void createAuthStateListener() {
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                final FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                if (firebaseUser != null) {
-                    getSupportActionBar().setTitle("Welcome " + firebaseUser.getDisplayName() + "!");
-                    addToSharedPreferences(firebaseUser.getDisplayName());
-                }
-            }
-        };
-
     }
 
     @Override
@@ -109,7 +105,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
-        mAuth.removeAuthStateListener(mAuthListener);
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
     }
 
     @Override
