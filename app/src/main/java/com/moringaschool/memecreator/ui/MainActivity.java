@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -63,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private ArrayList<String> memeNames = new ArrayList<>();
     private ArrayList<String> createdMemeUrls;
+
+    private int mOrientation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
