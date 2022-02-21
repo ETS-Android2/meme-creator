@@ -15,7 +15,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @BindView(R.id.button) Button mButton;
     @BindView(R.id.viewCreatedMemesButton) Button mViewCreatedMemesButton;
+    @BindView(R.id.imageView2)
+    ImageView mImageView2;
 
     private Data data;
     private List<Meme> memes;
@@ -93,6 +98,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mViewCreatedMemesButton.setOnClickListener(this);
 
         imgflipAPI = ImgflipClient.getClient();
+
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.main_image_anim);
+
+        mImageView2.setAnimation(animation);
     }
 
     @Override
