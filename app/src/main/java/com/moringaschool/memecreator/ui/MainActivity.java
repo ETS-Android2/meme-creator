@@ -129,8 +129,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (view == mViewCreatedMemesButton) {
             Intent newIntent = new Intent(MainActivity.this, CreatedMemesActivity.class);
-            newIntent.putStringArrayListExtra("memeNames", memeNames);
-            newIntent.putStringArrayListExtra("createdMemesUrl", createdMemeUrls);
             startActivity(newIntent);
         }
     }
