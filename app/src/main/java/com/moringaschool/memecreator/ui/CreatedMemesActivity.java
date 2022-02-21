@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -64,7 +66,7 @@ public class CreatedMemesActivity extends AppCompatActivity {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(CreatedMemesActivity.this);
         String userName = mSharedPreferences.getString(Constants.SHARED_PREFERENCES_USER_NAME, null);
         if(userName != null) {
-            String title = userName + " the memes you created appear here";
+            String title = userName + " the memes you create appear here";
             mTextView8.setText(title);
         }
         else {
@@ -92,6 +94,10 @@ public class CreatedMemesActivity extends AppCompatActivity {
 
             }
         });
+
+        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(this, R.anim.listview_images_anim);
+        mListView.setLayoutAnimation(controller);
+        mListView.scheduleLayoutAnimation();
     }
 
     private void showProgressBar() {
