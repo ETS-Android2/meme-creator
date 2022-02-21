@@ -70,8 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                assert firebaseUser != null;
-                if (firebaseUser.getDisplayName() != null) {
+                if (firebaseUser != null) {
                     getSupportActionBar().setTitle("Welcome " + firebaseUser.getDisplayName() + "!");
                     addToSharedPreferences(firebaseUser.getDisplayName());
                 }
@@ -203,5 +202,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void addToSharedPreferences(String name) {
         mEditor.putString(Constants.SHARED_PREFERENCES_USER_NAME, name);
+        mEditor.apply();
     }
 }

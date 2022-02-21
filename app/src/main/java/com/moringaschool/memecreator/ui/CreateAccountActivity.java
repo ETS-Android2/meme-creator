@@ -166,7 +166,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     private void showProgressBar() {
         mCreateAccountConstraint.setAlpha(0.3f);
         mFirebaseProgressBar1.setVisibility(View.VISIBLE);
-        mLoadingTextView1.setVisibility(View.GONE);
+        mLoadingTextView1.setVisibility(View.VISIBLE);
     }
 
     private void hideProgressBar() {

@@ -60,10 +60,16 @@ public class CreatedMemesActivity extends AppCompatActivity {
         setContentView(R.layout.memes_created);
         ButterKnife.bind(this);
         showProgressBar();
+
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(CreatedMemesActivity.this);
         String userName = mSharedPreferences.getString(Constants.SHARED_PREFERENCES_USER_NAME, null);
-        String title = userName + " the memes you created appear here";
-        mTextView8.setText(title);
+        if(userName != null) {
+            String title = userName + " the memes you created appear here";
+            mTextView8.setText(title);
+        }
+        else {
+            mTextView8.setText("The memes you create shall appear here");
+        }
 
         intent = getIntent();
 
